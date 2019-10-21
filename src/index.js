@@ -1,0 +1,35 @@
+// Udemy video 91
+const express = require('express');
+require('./db/mongoose');
+
+const userRouter = require('./routers/users');
+const tasksRouter = require('./routers/tasks');
+const app = express();
+const port = process.env.PORT || 3000;
+
+// app.use((req, res, next) => {
+//   console.log(req.method);
+//   res.status(503).send('The site is under maintenance');
+// });
+
+app.use(express.json());
+
+app.use(userRouter);
+app.use(tasksRouter);
+
+app.listen(port, function() {
+  console.log('Server running on port ', port);
+});
+
+const jwt = require('jsonwebtoken');
+const myFunction = async function() {
+  const token = jwt.sign({ _id: 'abc123' }, 'thisismynewcourse', {
+    expiresIn: '7 days'
+  });
+  console.log(token);
+
+  const data = jwt.verify(token, 'thisismynewcourse');
+  console.log(data);
+};
+
+myFunction();
