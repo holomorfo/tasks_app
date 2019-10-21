@@ -11,7 +11,8 @@ const userSchema = new mongoose.Schema({
   },
   age: {
     type: Number,
-    require: true,
+    required: true,
+    unique: true,
     validate(value) {
       if (value < 0) {
         throw new Error('Age must be positive');
@@ -46,6 +47,16 @@ const userSchema = new mongoose.Schema({
     }
   ]
 });
+
+userSchema.methods.toJSON = function() {
+  const user = this;
+  const userObject = user.toObject();
+  console.log('User object');
+  delete userObject.password;
+  delete userObject.tokens;
+  console.log(userObject);
+  return userObject;
+};
 
 userSchema.methods.generateAuthToken = async function() {
   const user = this;
