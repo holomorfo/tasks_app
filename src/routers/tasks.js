@@ -16,15 +16,35 @@ router.post('/tasks', auth, async function(req, res) {
     res.status(400).send(error);
   }
 });
-
-router.get('/tasks', auth, async function(req, res) {
+// GET /tasks?completed=true
+// GET /tasks?completed=false
+// GET /tasks?limit=10&skip=10
+// GET /tasks?sortBy=createdAse:desc
+router.get('/tasks', auth, async (req, res) => {
+  const match = {};
+  const sort = {};
+  if (req.query.completed) match.completed = req.query.completed === 'true';
+  if (req.query.sortBy) {
+    const parts = req.query.sortBy.split(':');
+    sort[parts[0]] = parts[1] === 'desc' ? -1 : 1;
+  }
   try {
     // Option 1
-    const tasks = await Task.find({ owner: req.user._id });
-    res.status(201).send(tasks);
+    // const tasks = await Task.find({ owner: req.user._id });
+    // res.status(201).send(tasks);
     // Option 2
-    // await req.user.populate('tasks').execPopulate();
-    // res.status(201).send(req.user.tasks);
+    await req.user
+      .populate({
+        path: 'tasks',
+        match,
+        options: {
+          limit: parseInt(req.query.limit),
+          skip: parseInt(req.query.skip),
+          sort
+        }
+      })
+      .execPopulate();
+    res.status(201).send(req.user.tasks);
   } catch (error) {
     res.status(400).send(error);
   }

@@ -4,48 +4,51 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Task = require('../models/task');
 
-const userSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true
-  },
-  age: {
-    type: Number,
-    required: true,
-    validate(value) {
-      if (value < 0) {
-        throw new Error('Age must be positive');
+const userSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true
+    },
+    age: {
+      type: Number,
+      required: true,
+      validate(value) {
+        if (value < 0) {
+          throw new Error('Age must be positive');
+        }
       }
-    }
-  },
-  email: {
-    type: String,
-    unique: true,
-    required: true,
-    trim: true,
-    validate(value) {
-      if (!validator.isEmail(value)) throw new Error('Email is invalid');
-    }
-  },
-  password: {
-    type: String,
-    trim: true,
-    required: true,
-    validate(value) {
-      if (value.length < 7)
-        throw new Error('Password must be at least 7 characters long');
-      if (value.includes('password')) throw new Error('Not a valid password');
-    }
-  },
-  tokens: [
-    {
-      token: {
-        type: String,
-        required: true
+    },
+    email: {
+      type: String,
+      unique: true,
+      required: true,
+      trim: true,
+      validate(value) {
+        if (!validator.isEmail(value)) throw new Error('Email is invalid');
       }
-    }
-  ]
-});
+    },
+    password: {
+      type: String,
+      trim: true,
+      required: true,
+      validate(value) {
+        if (value.length < 7)
+          throw new Error('Password must be at least 7 characters long');
+        if (value.includes('password')) throw new Error('Not a valid password');
+      }
+    },
+    tokens: [
+      {
+        token: {
+          type: String,
+          required: true
+        }
+      }
+    ]
+  },
+  { timestamps: true }
+);
 
 // Virtual property
 userSchema.virtual('tasks', {
@@ -80,7 +83,7 @@ userSchema.statics.findByCredentials = async (email, password) => {
   return user;
 };
 
-// hash the plain text pasxsword before savins
+// hash the plain text password before saving
 userSchema.pre('save', async function(next) {
   const user = this;
   console.log('User');
