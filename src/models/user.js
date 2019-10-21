@@ -12,7 +12,6 @@ const userSchema = new mongoose.Schema({
   age: {
     type: Number,
     required: true,
-    unique: true,
     validate(value) {
       if (value < 0) {
         throw new Error('Age must be positive');
@@ -46,6 +45,13 @@ const userSchema = new mongoose.Schema({
       }
     }
   ]
+});
+
+// Virtual property
+userSchema.virtual('tasks', {
+  ref: 'Task',
+  localField: '_id',
+  foreignField: 'owner'
 });
 
 userSchema.methods.toJSON = function() {
