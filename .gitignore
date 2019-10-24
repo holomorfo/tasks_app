@@ -1,3 +1,6 @@
+# Config directory
+config
+
 # Logs
 logs
 *.log

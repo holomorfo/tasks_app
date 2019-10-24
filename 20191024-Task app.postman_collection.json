@@ -1,0 +1,560 @@
+{
+	"info": {
+		"_postman_id": "8cf76dee-5e50-45a6-a19f-a2d540ae7bd4",
+		"name": "Task app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "036ce5d8-ba98-44f1-8413-21aa6559730e",
+						"exec": [
+							"if(pm.response.code==201){",
+							"    pm.environment.set('authToken',pm.response.json().token)",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\":\"Cristian\",\n\t\"email\": \"cristian.manuel@gmail.com\",\n\t\"age\":35,\n\t\"password\":\"pepycontrasena\"\n}"
+				},
+				"url": {
+					"raw": "{{url}}/users",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0b57c1cf-e68a-499a-8bed-4b103743a928",
+						"exec": [
+							"var data = pm.response.json();",
+							"//console.log(data)",
+							"pm.environment.set(\"authToken\", data.token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"pepy@gmail.com\",\n\t\"password\":\"pepycontrasena\"\n}"
+				},
+				"url": {
+					"raw": "{{url}}/users/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/user/logout",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"user",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout all",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/users/logoutALL",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users",
+						"logoutALL"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create task",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"description\":\"Kubernetes\",\n\t\"completed\": false\n}"
+				},
+				"url": {
+					"raw": "{{url}}/tasks",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Read profile",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/users/me",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Read tasks",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/tasks?limit=2&skip=2",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"tasks"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "2"
+						},
+						{
+							"key": "skip",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Read tasks 2,2",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/tasks?limit=2&skip=2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"tasks"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "2"
+								},
+								{
+									"key": "skip",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "388"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"184-amfbuD2ny/m8AK0+V6av5i9dGrU\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 21 Oct 2019 22:50:07 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"completed\": true,\n        \"_id\": \"5dae3089acc9387f55452779\",\n        \"description\": \"Yoga\",\n        \"owner\": \"5dae2e6dbcc6697795b4b3be\",\n        \"createdAt\": \"2019-10-21T22:26:17.285Z\",\n        \"updatedAt\": \"2019-10-21T22:26:17.285Z\",\n        \"__v\": 0\n    },\n    {\n        \"completed\": true,\n        \"_id\": \"5dae308dacc9387f5545277a\",\n        \"description\": \"Run\",\n        \"owner\": \"5dae2e6dbcc6697795b4b3be\",\n        \"createdAt\": \"2019-10-21T22:26:21.188Z\",\n        \"updatedAt\": \"2019-10-21T22:26:21.188Z\",\n        \"__v\": 0\n    }\n]"
+				},
+				{
+					"name": "Read tasks 5,1",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/tasks?limit=5&skip=1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"tasks"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "5"
+								},
+								{
+									"key": "skip",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "786"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"312-VbauUS2IQXXNNq9MGZ80IgrADhA\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 21 Oct 2019 22:49:17 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"completed\": false,\n        \"_id\": \"5dae307eacc9387f55452778\",\n        \"description\": \"Paint\",\n        \"owner\": \"5dae2e6dbcc6697795b4b3be\",\n        \"createdAt\": \"2019-10-21T22:26:06.738Z\",\n        \"updatedAt\": \"2019-10-21T22:26:06.738Z\",\n        \"__v\": 0\n    },\n    {\n        \"completed\": true,\n        \"_id\": \"5dae3089acc9387f55452779\",\n        \"description\": \"Yoga\",\n        \"owner\": \"5dae2e6dbcc6697795b4b3be\",\n        \"createdAt\": \"2019-10-21T22:26:17.285Z\",\n        \"updatedAt\": \"2019-10-21T22:26:17.285Z\",\n        \"__v\": 0\n    },\n    {\n        \"completed\": true,\n        \"_id\": \"5dae308dacc9387f5545277a\",\n        \"description\": \"Run\",\n        \"owner\": \"5dae2e6dbcc6697795b4b3be\",\n        \"createdAt\": \"2019-10-21T22:26:21.188Z\",\n        \"updatedAt\": \"2019-10-21T22:26:21.188Z\",\n        \"__v\": 0\n    },\n    {\n        \"completed\": true,\n        \"_id\": \"5dae32fdaebeac097c375b7a\",\n        \"description\": \"Visit friend\",\n        \"owner\": \"5dae2e6dbcc6697795b4b3be\",\n        \"createdAt\": \"2019-10-21T22:36:45.715Z\",\n        \"updatedAt\": \"2019-10-21T22:36:45.715Z\",\n        \"__v\": 0\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Read task",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:3000/tasks/5daa04bb9cf87810322ed080",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3000",
+					"path": [
+						"tasks",
+						"5daa04bb9cf87810322ed080"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update user",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\":\"Felipe\",\n\t\"password\":\"cosa1234\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:3000/users/5daa5240222b3a5d74864aab",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"5daa5240222b3a5d74864aab"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update task",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"description\":\"Terminar la tesis\",\n\"completed\":false\n\t\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:3000/task/5daa01340e5b2902af0be611",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3000",
+					"path": [
+						"task",
+						"5daa01340e5b2902af0be611"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete user",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/users/me",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete task",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upload avatar",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "avatar",
+							"type": "file",
+							"src": "/home/cbanuelos/repos/node-task-manager/node-course-images/profile-pic.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/users/me/avatar",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users",
+						"me",
+						"avatar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get avatar by ID",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "avatar",
+							"type": "file",
+							"src": "/home/cbanuelos/repos/node-task-manager/node-course-images/fall.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/users/5dae2e6dbcc6697795b4b3be/avatar",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users",
+						"5dae2e6dbcc6697795b4b3be",
+						"avatar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete avatar",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "{{url}}/users/me/avatar",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users",
+						"me",
+						"avatar"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{authToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "b47f8339-fa17-493e-8662-e81dc6683b82",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "9ba8b22b-ee13-4c47-9a98-b417d104f4e4",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
