@@ -81,7 +81,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"email\": \"pepy@gmail.com\",\n\t\"password\":\"pepycontrasena\"\n}"
+					"raw": "{\n\t\"email\": \"cristian.manuel@gmail.com\",\n\t\"password\":\"pepycontrasena\"\n}"
 				},
 				"url": {
 					"raw": "{{url}}/users/login",
@@ -146,7 +146,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"description\":\"Kubernetes\",\n\t\"completed\": false\n}"
+					"raw": "{\n\t\"description\":\"Tesis\",\n\t\"completed\": false\n}"
 				},
 				"url": {
 					"raw": "{{url}}/tasks",
@@ -184,22 +184,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{url}}/tasks?limit=2&skip=2",
+					"raw": "{{url}}/tasks",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
 						"tasks"
-					],
-					"query": [
-						{
-							"key": "limit",
-							"value": "2"
-						},
-						{
-							"key": "skip",
-							"value": "2"
-						}
 					]
 				}
 			},
