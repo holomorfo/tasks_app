@@ -2,6 +2,21 @@ const express = require('express');
 const User = require('../models/user');
 const auth = require('../middleware/auth');
 const router = new express.Router();
+const multer = require('multer');
+const sharp = require('sharp');
+const upload = multer({
+  // dest: 'avatars',
+  limits: {
+    fileSize: 1000000
+  },
+  fileFilter(req, file, cb) {
+    if (!file.originalname.match(/\.(jpg|jpeg|png)$/))
+      return cb(new Error('Please upload an image file.'));
+
+    // This is send when correct
+    cb(undefined, true);
+  }
+});
 
 router.post('/users', async function(req, res) {
   console.log(req.body);
@@ -84,6 +99,54 @@ router.delete('/users/me', auth, async (req, res) => {
     res.send(req.user);
   } catch (error) {
     res.status(500).send();
+  }
+});
+
+router.post(
+  '/users/me/avatar',
+  auth,
+  upload.single('avatar'),
+  async (req, res) => {
+    const buffer = await sharp(req.file.buffer)
+      .png()
+      .resize({ width: 250, height: 250 })
+      .toBuffer();
+    req.user.avatar = buffer;
+    await req.user.save();
+    res.status(200).send();
+  },
+  (error, req, res, next) => {
+    res.status(400).send({ error: error.message });
+  }
+);
+
+router.delete(
+  '/users/me/avatar',
+  auth,
+  async function(req, res) {
+    try {
+      // question why it was removed
+      req.user.avatar = undefined;
+      console.log(req.user.avatar);
+      await req.user.save();
+      res.status(200).send('Avatar image deleted');
+    } catch (error) {
+      res.status(500).send();
+    }
+  },
+  (error, req, res, next) => {
+    res.status(400).send({ error: error.message });
+  }
+);
+
+router.get('/users/:id/avatar', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user || !user.avatar) throw new Error();
+    res.set('Content-Type', 'image/png');
+    res.status(200).send(user.avatar);
+  } catch (error) {
+    res.status(404).send();
   }
 });
 
