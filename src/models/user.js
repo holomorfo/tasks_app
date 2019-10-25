@@ -63,11 +63,9 @@ userSchema.virtual('tasks', {
 userSchema.methods.toJSON = function() {
   const user = this;
   const userObject = user.toObject();
-  console.log('User object');
   delete userObject.password;
   delete userObject.tokens;
   delete userObject.avatar;
-  console.log(userObject);
   return userObject;
 };
 
@@ -90,8 +88,6 @@ userSchema.statics.findByCredentials = async (email, password) => {
 // hash the plain text password before saving
 userSchema.pre('save', async function(next) {
   const user = this;
-  console.log('User');
-  console.log(user);
   if (user.isModified('password')) {
     user.password = await bcrypt.hash(user.password, 8);
   }

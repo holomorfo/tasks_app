@@ -4,7 +4,6 @@ const sendgripAPIKey = process.env.SENDGRID_API_KEY;
 sgMail.setApiKey(sendgripAPIKey);
 
 const sendWelcomeEmail = (email, name) => {
-  console.log('Sending email to', email, name);
   sgMail.send({
     to: email,
     from: 'holomorfo.mx@gmail.com',
@@ -14,7 +13,6 @@ const sendWelcomeEmail = (email, name) => {
 };
 
 const sendCancelationEmail = (email, name) => {
-  console.log('Sending cancel account email to', email, name);
   sgMail.send({
     to: email,
     from: 'holomorfo.mx@gmail.com',

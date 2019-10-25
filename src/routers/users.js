@@ -21,7 +21,6 @@ const upload = multer({
 });
 
 router.post('/users', async function(req, res) {
-  console.log(req.body);
   const user = new User(req.body);
 
   try {
@@ -65,7 +64,6 @@ router.get('/users/me', auth, async function(req, res) {
 
 router.post('/users/logoutALL', auth, async (req, res) => {
   try {
-    console.log(req.user);
     req.user.tokens = [];
     await req.user.save();
     res.status(200).send('Logged out from all sessions');
@@ -102,7 +100,6 @@ router.delete('/users/me', auth, async (req, res) => {
     sendCancelationEmail(req.user.email, req.user.name);
     res.send(req.user);
   } catch (error) {
-    console.log(error);
     res.status(500).send(error);
   }
 });
@@ -132,7 +129,6 @@ router.delete(
     try {
       // question why it was removed
       req.user.avatar = undefined;
-      console.log(req.user.avatar);
       await req.user.save();
       res.status(200).send('Avatar image deleted');
     } catch (error) {
