@@ -106,7 +106,8 @@ test('should update valid user fields', async () => {
       name: 'Manuel'
     })
     .expect(200);
-  const user = await User.findById(userOneId);
+  const user = await User.findById(userOneId)
+  
   expect(user.name).toBe('Manuel');
 });
 
